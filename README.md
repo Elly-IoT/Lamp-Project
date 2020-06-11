@@ -4,20 +4,27 @@ A project where we used Tensorflow Lite on a Raspberry Pi to detect a Book and c
 # Preperations
 To prepare your raspberry pi to run Tensorflow and all the other stuff we need to have a couple of things in place 
 
-Create a virtual environment
-
-Install all needed Dependencies for Open CV
-
 ```python
 
 # Upgrade Raspberry Pi
 sudo apt-get update
 sudo apt-get dist-upgrade
 
+# Clone this repo to your PC
+# Can also be done later
+
 # Make sure camera is on
+# enable the i2c and camera interfaces via the menu
+sudo raspi-config
+
+# Install and Create a virtual environment
+sudo pip3 install virtualenv
+python3 -m venv raspilamp-env
+
+#Activate the environment using (remember you might need to activate it again)
+source tflite1-env/bin/activate
 
 # Get packages required for OpenCV
-
 sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
 sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
 sudo apt-get -y install libxvidcore-dev libx264-dev
@@ -30,7 +37,17 @@ pip3 install opencv-python==3.4.6.27
 # Using the tflite_runtime packages available at https://www.tensorflow.org/lite/guide/python
 # Will change to just 'pip3 install tensorflow' once newer versions of TF are added to piwheels
 
-#pip3 install tensorflow
+# SymLink smbus http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_I2C.html
+cd ~/.virtualenvs/py3cv4/lib/python3.5/site-packages/
+ln -s /usr/lib/python3/dist-packages/smbus.cpython-35m-arm-linux-gnueabihf.so smbus.so
+
+# Install possibly missing packages
+pip install pantilthat
+pip install imutils
+pip install "picamera[array]"
+
+#install tensorflow
+pip3 install tensorflow
 
 version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
 
@@ -42,4 +59,6 @@ if [ $version == "3.5" ]; then
 pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp35-cp35m-linux_armv7l.whl
 fi
 
+# now you only need to run the model
+python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
 ```
