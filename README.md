@@ -4,25 +4,29 @@ A project where we used Tensorflow Lite on a Raspberry Pi to detect a Book and c
 # Preperations
 To prepare your raspberry pi to run Tensorflow and all the other stuff we need to have a couple of things in place 
 
+If you havent done yet - donwload the raspberry pi OS - I am using the May 2020 Version with recommended software (Raspberry Pi OS (32-bit) with desktop and recommended software)
+
+Use Balena Etcher or any other imaging Tool to flash the OS to the SD Card
+
 ```python
 
 # Upgrade Raspberry Pi
 sudo apt-get update
 sudo apt-get dist-upgrade
 
-# Clone this repo to your PC
+# Clone this repo to your raspberry pi
 # Can also be done later
 
 # Make sure camera is on
 # enable the i2c and camera interfaces via the menu
 sudo raspi-config
 
+
 # Install and Create a virtual environment
-sudo pip3 install virtualenv
 python3 -m venv raspilamp-env
 
-#Activate the environment using (remember you might need to activate it again)
-source tflite1-env/bin/activate
+# Activate the environment using (remember you might need to activate it again)
+source raspilamp-env/bin/activate
 
 # Get packages required for OpenCV
 sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
@@ -36,6 +40,9 @@ pip3 install opencv-python==3.4.6.27
 # Get packages required for TensorFlow
 # Using the tflite_runtime packages available at https://www.tensorflow.org/lite/guide/python
 # Will change to just 'pip3 install tensorflow' once newer versions of TF are added to piwheels
+pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_armv7l.whl
+
+# With all of this done you should now be able to run the Tensorflow lite model with a webcam 
 
 # SymLink smbus http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_I2C.html
 cd ~/.virtualenvs/py3cv4/lib/python3.5/site-packages/
