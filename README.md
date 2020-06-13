@@ -44,6 +44,9 @@ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-
 
 # With all of this done you should now be able to run the Tensorflow lite model with a webcam 
 
+# now you only need to run the model
+python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
+
 # SymLink smbus http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_I2C.html
 cd ~/.virtualenvs/py3cv4/lib/python3.5/site-packages/
 ln -s /usr/lib/python3/dist-packages/smbus.cpython-35m-arm-linux-gnueabihf.so smbus.so
@@ -53,19 +56,5 @@ pip install pantilthat
 pip install imutils
 pip install "picamera[array]"
 
-#install tensorflow
-pip3 install tensorflow
 
-version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-
-if [ $version == "3.7" ]; then
-pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_armv7l.whl
-fi
-
-if [ $version == "3.5" ]; then
-pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp35-cp35m-linux_armv7l.whl
-fi
-
-# now you only need to run the model
-python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
 ```
