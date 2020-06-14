@@ -15,18 +15,19 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 
 # Clone this repo to your raspberry pi
-# Can also be done later
+# https://github.com/Elly-IoT/Lamp-Project.git
 
 # Make sure camera is on
 # enable the i2c and camera interfaces via the menu
 sudo raspi-config
 
 
-# Install and Create a virtual environment
+# Create a virtual environment using venv
 python3 -m venv raspilamp-env
 
 # Activate the environment using (remember you might need to activate it again)
 source raspilamp-env/bin/activate
+# (raspilamp-env) pi@raspberrypi:~ $ This is how your command line should look now
 
 # Get packages required for OpenCV
 sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
@@ -39,22 +40,27 @@ pip3 install opencv-python==3.4.6.27
 
 # Get packages required for TensorFlow
 # Using the tflite_runtime packages available at https://www.tensorflow.org/lite/guide/python
-# Will change to just 'pip3 install tensorflow' once newer versions of TF are added to piwheels
 pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_armv7l.whl
 
 # With all of this done you should now be able to run the Tensorflow lite model with a webcam 
-
-# now you only need to run the model
 python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model
 
 # SymLink smbus http://www.netzmafia.de/skripten/hardware/RasPi/RasPi_I2C.html
-cd ~/.virtualenvs/py3cv4/lib/python3.5/site-packages/
-ln -s /usr/lib/python3/dist-packages/smbus.cpython-35m-arm-linux-gnueabihf.so smbus.so
+# This means we are not downloading a dependency but rather creating a link to a package which is already there for this we need to use the ln command within the site packages folder 
+cd raspilamp-env/lib/python3.7/site-packages/
+ln -s /usr/lib/python3/dist-packages/smbus.cpython-37m-arm-linux-gnueabihf.so smbus.so
 
 # Install possibly missing packages
 pip install pantilthat
 pip install imutils
 pip install "picamera[array]"
+
+
+#Afterwards you should be able to run 
+python pan_tilt_tracking.py --modeldir=coco_ssd_mobilenet_v1_1.0_quant_2018_06_29/
+#At this point this will still only open the webcam but later on this will 
+
+
 
 
 ```
