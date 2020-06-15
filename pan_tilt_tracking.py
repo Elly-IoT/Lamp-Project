@@ -73,14 +73,9 @@ imW, imH = int(resW), int(resH)
 pkg = importlib.util.find_spec('tflite_runtime')
 if pkg:
     from tflite_runtime.interpreter import Interpreter
-
-
+    print("using runtime not tensorflow")
 else:
     from tensorflow.lite.python.interpreter import Interpreter
-
-
-
-# If using Edge TPU, assign filename for Edge TPU model
 
 
 # Get path to current working directory
@@ -128,6 +123,7 @@ time.sleep(1)
 while True:
         # Start timer (for calculating frame rate)
     t1 = cv2.getTickCount()
+    print(t1)
 
     # Grab frame from video stream
     frame1 = videostream.read()
@@ -252,6 +248,7 @@ class VideoStream:
     def __init__(self, resolution=(640, 480), framerate=30):
         # Initialize the PiCamera and the camera image stream
         self.stream = cv2.VideoCapture(0)
+        print("start VideoCapture")
         ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         ret = self.stream.set(3, resolution[0])
         ret = self.stream.set(4, resolution[1])
@@ -305,6 +302,7 @@ if __name__ == "__main__":
         help="path to input Haar cascade for face detection")
     #args = vars(ap.parse_args())
     args = "haarcascade_frontalface_default.xml"
+    print("run main")
 
     # start a manager for managing process-safe variables
     with Manager() as manager:
